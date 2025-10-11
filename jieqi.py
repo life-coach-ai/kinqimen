@@ -281,7 +281,10 @@ def gangzhi(year, month, day, hour, minute):
                 di_zhi[cdate.getDayGZ().dz]), "{}{}".format(
                     tian_gan[cdate.getHourGZ(dd[3]).tg],
                     di_zhi[cdate.getHourGZ(dd[3]).dz])
-    mTG1 = find_lunar_month(yTG).get(lunar_date_d(year, month, day).get("月"))
+    if year < 1900:
+        mTG1 = find_lunar_month(yTG).get(lunar_date_d(year, month, day).get("月"))
+    else:
+        mTG1 = mTG
     hTG1 = find_lunar_hour(dTG).get(hTG[1])
     zi = gangzhi1(year, month, day, 0, 0)[3]
     if minute < 10 and minute >=0:
@@ -299,7 +302,6 @@ def gangzhi(year, month, day, hour, minute):
     hourminute = str(hour)+":"+str(reminute)
     gangzhi_minute = ke_jiazi_d(zi).get(hourminute)
     return [yTG, mTG1, dTG, hTG1, gangzhi_minute]
-        
 
 if __name__ == '__main__':
     year = 2005
@@ -315,4 +317,5 @@ if __name__ == '__main__':
     #print( get_before_jieqi_start_date(year, month, day, hour, minute))
     print(gangzhi(year, month, day, hour, minute))
     #print(find_lunar_month(gangzhi(year, month, day, hour, minute)[0]))
+
         
