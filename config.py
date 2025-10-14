@@ -255,7 +255,7 @@ def qimen_ju_name_zhirun(year, month, day, hour, minute):
         if d == 0:
             if lunar_month in ["腊月", "冬月"]:
                 return "{}{}".format(qdict.get("其他排局1" if lunar_month == "腊月" else "當前排局"), qdict.get("三元"))
-            return "{}{}".format(qdict.get("超神接氣正授排局" if solar_month > 9 else "其他排局"), qdict.get("三元"))
+            return "{}{}".format(qdict.get("超神接氣正授排局" if solar_month > 9 else "當前排局"), qdict.get("三元"))
 
         # d <= 6 and d != 0 
         if d <= 6:
@@ -837,4 +837,5 @@ if __name__ == '__main__':
     #print(zhifu_n_zhishi(year, month, day, hour, minute, 2))
     #print(zhifu_pai(year, month, day, hour, minute, 1))
     #print(zhifu_pai(year, month, day, hour, minute, 2))
+
 
