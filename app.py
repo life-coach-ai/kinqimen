@@ -4,10 +4,23 @@ import pendulum as pdlm
 from io import StringIO
 import datetime
 import pytz
+import os
+import sys
 from contextlib import contextmanager, redirect_stdout
-import kinqimen
-from kinliuren import kinliuren
 import config
+
+# Ensure repository root is on sys.path so sibling packages can be imported
+# (when running this file directly, Python's import path doesn't include the
+# parent directory; add it here so `kinliuren` resolves correctly.)
+root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if root not in sys.path:
+    sys.path.insert(0, root)
+
+# Also import package modules using absolute imports so the module names
+# resolve when this file is executed directly.
+# Import Qimen from the local module file `kinqimen.py` (not as a package)
+from kinqimen import Qimen
+from kinliuren.kinliuren.kinliuren import Liuren
 
 BASE_URL_KINLIUREN = 'https://raw.githubusercontent.com/kentang2017/kinliuren/master/'
 
@@ -42,7 +55,7 @@ with st.sidebar:
     pp_date=st.date_input("日期",pdlm.now(tz='Asia/Shanghai').date())
     pp_time = st.text_input('輸入時間(如: 18:30)', '')
     option = st.selectbox( '起盤方式', ( ' 時家奇門 ', ' 刻家奇門 '))
-    option2 = st.selectbox( '排盤', (' 置閏 ',' 拆補 '))
+    option2 = st.selectbox( '排盤', (' 置閏 ',' 拆補 '), index=1)
     num = dict(zip([' 時家奇門 ', ' 刻家奇門 '],[1,2])).get(option)
     pai = dict(zip([' 拆補 ',' 置閏 '],[1,2])).get(option2)
     p = str(pp_date).split("-")
@@ -69,7 +82,7 @@ with log:
 with pan:
     st.header('堅奇門')
     eg = list("巽離坤震兌艮坎乾")
-    now = datetime.datetime.now(pytz.timezone('Asia/Hong_Kong'))
+    now = datetime.datetime.now(pytz.timezone('UTC'))
     ny = now.year
     nm = now.month
     nd = now.day
@@ -77,9 +90,9 @@ with pan:
     nmintue = now.minute
     nj_q =  config.jq(ny,nm,nd,nh,nmintue)
     ngz = config.gangzhi(ny,nm,nd,nh,nmintue)
-    nqtext = kinqimen.Qimen(ny,nm,nd,nh,nmintue).pan(pai)
+    nqtext = Qimen(ny,nm,nd,nh,nmintue).pan(pai)
     nlunar_month = dict(zip(range(1,13), config.cmonth)).get(config.lunar_date_d(ny,nm,nd).get("月"))
-    nlr = kinliuren.Liuren( nqtext.get("節氣"),nlunar_month, ngz[2], ngz[3]).result(0)
+    nlr = Liuren( nqtext.get("節氣"),nlunar_month, ngz[2], ngz[3]).result(0)
     nqd = [nqtext.get("地盤").get(i) for i in eg]
     ne_to_s = nlr.get("地轉天盤")
     ne_to_g = nlr.get("地轉天將")
@@ -110,15 +123,15 @@ with pan:
             print(" {}│　　{}　　{} │　　{}　　{} │　　{}　　{} │{}".format(ne_to_g.get("卯"),nstar[5], nqd[5], nstar[6], nqd[6], nstar[7], nqd[7], ne_to_g.get("戌")))
             print("  ／────────┬──┴─────┬─────┴──┬────────＼")
             print("／  {}{}  　 │  {}{}　 │  {}{}　 │  　 {}{}　 ＼".format(ne_to_s.get("寅"),ne_to_g.get("寅"),ne_to_s.get("丑"),ne_to_g.get("丑"),ne_to_s.get("子"),ne_to_g.get("子"),ne_to_s.get("亥"),ne_to_g.get("亥")))
-            expander = st.expander("原始碼")
-            expander.write(str(nqtext))
+            with st.expander("原始碼", True):
+                st.code(str(nqtext), None)
         if manual:
             gz = config.gangzhi(y,m,d,h,mintue)
             j_q =  config.jq(y, m, d, h, mintue)
             lunar_month = dict(zip(range(1,13), config.cmonth)).get(config.lunar_date_d(y,m,d).get("月"))
             if num == 1:
-                qtext = kinqimen.Qimen(y,m,d,h,mintue).pan(pai)
-                lr = kinliuren.Liuren( qtext.get("節氣"),lunar_month, gz[2], gz[3]).result(0)
+                qtext = Qimen(y,m,d,h,mintue).pan(pai)
+                lr = Liuren( qtext.get("節氣"),lunar_month, gz[2], gz[3]).result(0)
                 qd = [qtext.get("地盤").get(i) for i in eg]
                 e_to_s = lr.get("地轉天盤")
                 e_to_g = lr.get("地轉天將")
@@ -146,11 +159,11 @@ with pan:
                 print(" {}│　　{}　　{} │　　{}　　{} │　　{}　　{} │{}".format(e_to_g.get("卯"),star[5], qd[5], star[6], qd[6], star[7], qd[7], e_to_g.get("戌")))
                 print("  ／────────┬──┴─────┬─────┴──┬────────＼")
                 print("／  {}{}  　 │  {}{}　 │  {}{}　 │  　 {}{}　 ＼".format(e_to_s.get("寅"),e_to_g.get("寅"),e_to_s.get("丑"),e_to_g.get("丑"),e_to_s.get("子"),e_to_g.get("子"),e_to_s.get("亥"),e_to_g.get("亥")))
-                expander = st.expander("原始碼")
-                expander.write(str(qtext))
+                with st.expander("原始碼", True):
+                    st.code(str(nqtext), None)
             if num == 2:
-                qtext_m = kinqimen.Qimen(y,m,d,h,mintue).pan_minute(pai)
-                lr = kinliuren.Liuren( qtext_m.get("節氣"),lunar_month, gz[3], gz[4]).result(0)
+                qtext_m = Qimen(y,m,d,h,mintue).pan_minute(pai)
+                lr = Liuren( qtext_m.get("節氣"),lunar_month, gz[3], gz[4]).result(0)
                 qd = [qtext_m.get("地盤").get(i) for i in eg]
                 e_to_s = lr.get("地轉天盤")
                 e_to_g = lr.get("地轉天將")
@@ -178,5 +191,5 @@ with pan:
                 print(" {}│　　{}　　{} │　　{}　　{} │　　{}　　{} │{}".format(e_to_g.get("卯"),star[5], qd[5], star[6], qd[6], star[7], qd[7], e_to_g.get("戌")))
                 print("  ／────────┬──┴─────┬─────┴──┬────────＼")
                 print("／  {}{}  　 │  {}{}　 │  {}{}　 │  　 {}{}　 ＼".format(e_to_s.get("寅"),e_to_g.get("寅"),e_to_s.get("丑"),e_to_g.get("丑"),e_to_s.get("子"),e_to_g.get("子"),e_to_s.get("亥"),e_to_g.get("亥")))
-                expander = st.expander("原始碼")
-                expander.write(str(qtext_m))
+                with st.expander("原始碼", True):
+                    st.code(str(nqtext), None)
