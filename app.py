@@ -95,7 +95,7 @@ def render_pan(y, m, d, h, minute, is_shijia=True):
         f"　 │　　{god[5]}　　　 │　　{god[6]}　　　 │　　{god[7]}　　　 │",
         f" {es['卯']}│　　{door[5]}　　{qt[5]} │　　{door[6]}　　{qt[6]} │　　{door[7]}　　{qt[7]} │{es['戌']}",
         f" {egod['卯']}│　　{star[5]}　　{qd[5]} │　　{star[6]}　　{qd[6]} │　　{star[7]}　　{qd[7]} │{egod['戌']}",
-        " ／──────────┬──┴─────┬─────┴──┬────────＼",
+        " ／─────────┬──┴─────┬─────┴──┬────────＼",
         f"／  {es['寅']}{egod['寅']}  　 │  {es['丑']}{egod['丑']}　 │  {es['子']}{egod['子']}　 │  　 {es['亥']}{egod['亥']}　 ＼",
     ]
     for line in lines:
@@ -123,6 +123,7 @@ with pan:
                 render_pan(pp_date.year, pp_date.month, pp_date.day, h, mnt, is_shijia)
             except:
                 st.error("時間格式錯誤，請輸入如 18:30")
+
 
 
 
