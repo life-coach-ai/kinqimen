@@ -92,7 +92,7 @@ with pan:
     with st_capture(output2.code):
         if not manual:
             print("時家奇門 | {}".format(nqtext.get("排盤方式")))
-            print("{}年{}月{}日{}時{}分\n".format(ny,nm,nd,nh,nminute))
+            print("{}年{}月{}日{}時{}分\n".format(ny,nm,nd,nh,nmintue))
             print("{} |\n{} | 節氣︰{} |\n值符星宮︰天{}宮 | 值使門宮︰{}\n".format(nqtext.get("干支"), nqtext.get("排局"),  nj_q,  nqtext.get("值符值使").get("值符星宮")[0]+"-"+nqtext.get("值符值使").get("值符星宮")[1], nqtext.get("值符值使").get("值使門宮")[0]+"門"+nqtext.get("值符值使").get("值使門宮")[1]+"宮" ))
             print("農曆月：{} | 節氣日數差距：{}天\n".format(config.lunar_date_d(ny, nm, nd).get("農曆月"),config.qimen_ju_name_zhirun_raw(ny, nm, nd, nh, nmintue).get("距節氣差日數")))
             print("＼  {}{}  　 │  {}{}　 │  {}{}　 │  　 {}{}　 ／".format(ne_to_s.get("巳"),ne_to_g.get("巳"),ne_to_s.get("午"),ne_to_g.get("午"),ne_to_s.get("未"),ne_to_g.get("未"),ne_to_s.get("申"),ne_to_g.get("申")))
@@ -180,4 +180,5 @@ with pan:
                 print("／  {}{}  　 │  {}{}　 │  {}{}　 │  　 {}{}　 ＼".format(e_to_s.get("寅"),e_to_g.get("寅"),e_to_s.get("丑"),e_to_g.get("丑"),e_to_s.get("子"),e_to_g.get("子"),e_to_s.get("亥"),e_to_g.get("亥")))
                 expander = st.expander("原始碼")
                 expander.write(str(qtext_m))
+
 
