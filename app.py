@@ -20,7 +20,7 @@ if root not in sys.path:
 # resolve when this file is executed directly.
 # Import Qimen from the local module file `kinqimen.py` (not as a package)
 from kinqimen import Qimen
-from kinliuren.kinliuren.kinliuren import Liuren
+from kinliuren import Liuren
 
 BASE_URL_KINLIUREN = 'https://raw.githubusercontent.com/kentang2017/kinliuren/master/'
 
@@ -155,3 +155,4 @@ with pan:
             display(qtext, lr, y, m, d, h, mintue, j_q, e_to_s, e_to_g, qd, qt, god, door, star, md, num)
         else:
             display(qtext, lr, ny, nm, nd, nh, nmintue, nj_q, e_to_s, e_to_g, qd, qt, god, door, star, md, num)
+
