@@ -160,7 +160,7 @@ with pan:
                 star = [qtext_m.get("星").get(i) for i in eg]
                 md = qtext_m.get("地盤").get("中")
                 print("刻家奇門 | {}".format(qtext_m.get("排盤方式")))
-                print("{}年{}月{}日{}時\n".format(y,m,d,h))
+                print("{}年{}月{}日{}時{}分\n".format(y,m,d,h,minute))
                 print("{} |\n{} | 節氣︰{} |\n值符星宮︰天{}宮 | 值使門宮︰{}\n".format(qtext_m.get("干支"), qtext_m.get("排局"),  j_q,  qtext_m.get("值符值使").get("值符星宮")[0]+"-"+qtext_m.get("值符值使").get("值符星宮")[1], qtext_m.get("值符值使").get("值使門宮")[0]+"門"+qtext_m.get("值符值使").get("值使門宮")[1]+"宮" ))
                 print("農曆月：{} | 節氣日數差距：{}天\n".format(config.lunar_date_d(y, m, d).get("農曆月"),config.qimen_ju_name_zhirun_raw(y,m,d,h,mintue).get("距節氣差日數")))
                 print("＼  {}{}  　 │  {}{}　 │  {}{}　 │  　 {}{}　 ／".format(e_to_s.get("巳"),e_to_g.get("巳"),e_to_s.get("午"),e_to_g.get("午"),e_to_s.get("未"),e_to_g.get("未"),e_to_s.get("申"),e_to_g.get("申")))
@@ -180,5 +180,6 @@ with pan:
                 print("／  {}{}  　 │  {}{}　 │  {}{}　 │  　 {}{}　 ＼".format(e_to_s.get("寅"),e_to_g.get("寅"),e_to_s.get("丑"),e_to_g.get("丑"),e_to_s.get("子"),e_to_g.get("子"),e_to_s.get("亥"),e_to_g.get("亥")))
                 expander = st.expander("原始碼")
                 expander.write(str(qtext_m))
+
 
 
